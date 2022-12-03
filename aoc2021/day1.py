@@ -4,8 +4,7 @@ DAY = 1
 
 
 def main(input):
-    input_list = input.split('\n')
-    input_ints = [int(i) for i in input_list]
+    input_ints = [int(i) for i in input]
     prev = []
     p1_increases = 0
     p2_increases = 0
@@ -19,9 +18,11 @@ def main(input):
                 p2_increases = p2_increases+1
             prev.pop(0)
         prev.append(line)
+    assert p1_increases == 1195
+    assert p2_increases == 1235
     print(f"Day {DAY} Part 1: {p1_increases}")
     print(f"Day {DAY} Part 2: {p2_increases}")
 
 
 if __name__ == '__main__':
-    main(read_input(f"day{DAY}.txt"))
+    main(read_input(f"inputs/day{DAY}.txt", split='\n'))

@@ -61,4 +61,4 @@ if __name__ == '__main__':
     assert ord('A') - 64 + 26 == 27
     assert ord('Z') - 64 + 26 == 52
 
-    main(read_input(f"day{DAY}.txt", True))
+    main(read_input(f"inputs/day{DAY}.txt", split='\n\n'))

@@ -2,8 +2,7 @@ import copy
 from common import *
 
 DAY = 3
-def main(raw_input):
-    input = raw_input.split('\n')
+def main(input):
     gamma = ""
     epsilon = ""
     data = process_data(input)
@@ -17,7 +16,7 @@ def main(raw_input):
         epsilon += str(minority)
 
     p1_answer = int(gamma, 2) * int(epsilon, 2)
-    assert p1_answer == 2648450  # Don't break things
+    assert p1_answer == 2648450
     print(f"Day {DAY} Part 1: {p1_answer}")
 
     # Part 2
@@ -35,6 +34,7 @@ def main(raw_input):
             done = (len(lsr_data) == 1 and len(ogr_data) == 1)
 
     p2_answer = int(lsr_data[0], 2) * int(ogr_data[0], 2)
+    assert p2_answer == 2845944
     print(f"Day {DAY} Part 2: {p2_answer}")
 
 def p2_processor(column, data, majority=True):
@@ -67,4 +67,4 @@ def flip_data(input):
     return data
 
 if __name__ == '__main__':
-    main(read_input(f"day{DAY}.txt"))
+    main(read_input(f"inputs/day{DAY}.txt", split='\n'))

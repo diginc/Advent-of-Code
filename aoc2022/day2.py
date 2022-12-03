@@ -37,12 +37,10 @@ z_map = {  # WIN
 
 
 def main(input):
-    input_list = input.split('\n')
-
     p1_answer = 0
     p2_answer = 0
 
-    for line in input_list:
+    for line in input:
         win = False
         draw = False
         enemy, you = line.split(' ')
@@ -72,9 +70,11 @@ def main(input):
             p1_answer += 3
 
     # Is that your final answer
+    assert p1_answer == 10310
+    assert p2_answer == 14859
     print(f"Day {DAY} Part 1: {p1_answer}")
     print(f"Day {DAY} Part 2: {p2_answer}")
 
 
 if __name__ == '__main__':
-    main(read_input(f"day{DAY}.txt"))
+    main(read_input(f"inputs/day{DAY}.txt", split='\n\n'))
