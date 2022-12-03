@@ -45,8 +45,6 @@ def main(raw_input):
     p2_answer = int(lsr_data[0], 2) * int(ogr_data[0], 2)
     print(f"Day {DAY} Part 2: {p2_answer}")
 
-['110101111110',
- '110101110110']
 def p2_processor(column, data, majority=True):
     flipped_data = flip_data(data)
     zero_count = flipped_data[column].count(0)
