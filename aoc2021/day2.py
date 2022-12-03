@@ -1,5 +1,9 @@
+from common import *
 
-def day2(input, title):
+DAY = 2
+
+
+def main(input):
     input_list = input.split('\n')
     p1_depth = 0  # Same as "aim" For Part 2
     p1_horiz = 0
@@ -16,8 +20,12 @@ def day2(input, title):
             p1_horiz += amount
             p2_horiz += amount
             p2_depth += p1_depth * amount
-    # Is that your final answer
     p1_answer = p1_horiz * p1_depth
     p2_answer = p2_horiz * p2_depth
-    print(f"{title} Part 1: {p1_answer}")
-    print(f"{title} Part 2: {p2_answer}")
+
+    print(f"Day {DAY} Part 1: {p1_answer}")
+    print(f"Day {DAY} Part 2: {p2_answer}")
+
+
+if __name__ == '__main__':
+    main(read_input(f"day{DAY}.txt"))

@@ -1,5 +1,9 @@
+from common import *
 
-def day1(input, title):
+DAY = 1
+
+
+def main(input):
     input_list = input.split('\n')
     input_ints = [int(i) for i in input_list]
     prev = []
@@ -15,5 +19,9 @@ def day1(input, title):
                 p2_increases = p2_increases+1
             prev.pop(0)
         prev.append(line)
-    print(f"{title} Part 1: {p1_increases}")
-    print(f"{title} Part 2: {p2_increases}")
+    print(f"Day {DAY} Part 1: {p1_increases}")
+    print(f"Day {DAY} Part 2: {p2_increases}")
+
+
+if __name__ == '__main__':
+    main(read_input(f"day{DAY}.txt"))

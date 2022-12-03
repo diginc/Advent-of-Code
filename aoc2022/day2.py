@@ -1,9 +1,7 @@
+from common import *
 
-# Opponent
-# A=Rock 1 B=Paper 2 C=Scissors 3
-# Your Strat
-# Y=Paper 2 X=Rock 1 Z=Scissors 3 win +6
 
+DAY = 2
 p1_scores = {
   "X": 1,
   "Y": 2,
@@ -12,7 +10,7 @@ p1_scores = {
 rock = "Rock"
 paper = "Paper"
 scissors = "Scissors"
-map = {
+translate = {
     'A': rock,
     "B": paper,
     "C": scissors,
@@ -20,7 +18,6 @@ map = {
     "Y": paper,
     "Z": scissors
 }
-
 x_map = {  # LOSE
     'A': 3,
     'B': 1,
@@ -39,7 +36,7 @@ z_map = {  # WIN
 
 
 
-def day2(input, title):
+def main(input):
     input_list = input.split('\n')
 
     p1_answer = 0
@@ -49,8 +46,8 @@ def day2(input, title):
         win = False
         draw = False
         enemy, you = line.split(' ')
-        trnsl_enemy = map[enemy]
-        trnsl_you = map[you]
+        trnsl_enemy = translate[enemy]
+        trnsl_you = translate[you]
         if trnsl_you == trnsl_enemy:
             draw = True
         if you == "X":  # Rock / Lose
@@ -75,6 +72,9 @@ def day2(input, title):
             p1_answer += 3
 
     # Is that your final answer
-    print(f"{title} Part 1: {p1_answer}")
-    print(f"{title} Part 2: {p2_answer}")
+    print(f"Day {DAY} Part 1: {p1_answer}")
+    print(f"Day {DAY} Part 2: {p2_answer}")
 
+
+if __name__ == '__main__':
+    main(read_input(f"day{DAY}.txt"))
