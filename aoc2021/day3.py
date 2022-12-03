@@ -1,15 +1,7 @@
 import copy
-import re
 from common import *
-from pprint import pprint
-from collections import Counter
 
 DAY = 3
-first_bit_map = {
-  "foo": "bar",
-}
-
-
 def main(raw_input):
     input = raw_input.split('\n')
     gamma = ""
