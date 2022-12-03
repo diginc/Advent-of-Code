@@ -2,11 +2,6 @@ import re
 from common import *
 
 DAY = 3
-map = {
-  "foo": "bar",
-}
-
-
 
 
 def main(input):
@@ -43,8 +38,6 @@ def main(input):
     for d in badges:
         score = get_score(d)
         p2_answer += score
-
-
 
     # Is that your final answer
     print(f"Day {DAY} Part 1: {p1_answer}")
