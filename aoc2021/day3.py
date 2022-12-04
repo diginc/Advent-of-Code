@@ -38,7 +38,7 @@ def main(input):
     print(f"Day {DAY} Part 2: {p2_answer}")
 
 def p2_processor(column, data, majority=True):
-    flipped_data = flip_data(data)
+    flipped_data = flip_data(data)  # Retro: Could have split data into matrix and used numpy.rot90, reassembled if needed for other code compat
     zero_count = flipped_data[column].count(0)
     one_count = flipped_data[column].count(1)
     filter_for = 1 if zero_count <= one_count else 0

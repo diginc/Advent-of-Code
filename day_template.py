@@ -1,4 +1,7 @@
+import re
 from common import *
+from pprint import pprint
+
 DAY = 1
 
 def main(input):
