@@ -8,24 +8,19 @@ DAY = 4
 def main(input):
     full_overlaps = 0
     any_overlaps = 0
-    for i, elf in enumerate(input):
-        ranges = [None, None]
+    for elf in input:
         split = elf.strip().split(',')
-        ranges[0] = [int(i) for i in split[0].split('-')]
-        ranges[1] = [int(i) for i in split[1].split('-')]
-        this_pair = []
-        for j in range(2):
-            j1 = ranges[j][0]
-            j2 = ranges[j][1]
-            exploded_ranges = [r for r in range(j1, j2+1)]
-            this_pair.insert(j, exploded_ranges)
-        if len(this_pair) == 2:
-            a = this_pair[0]
-            b = this_pair[1]
-            if (a[0] in b and a[-1] in b) or (b[0] in a and b[-1] in a):
-                full_overlaps += 1
-            if (a[0] in b or a[-1] in b) or (b[0] in a or b[-1] in a):
-                any_overlaps += 1
+        parsed_ranges = [None, None]
+        parsed_ranges[0] = [int(r) for r in split[0].split('-')]
+        parsed_ranges[1] = [int(r) for r in split[1].split('-')]
+        a = [r for r in range(parsed_ranges[0][0], parsed_ranges[0][1]+1)]
+        b = [r for r in range(parsed_ranges[1][0], parsed_ranges[1][1]+1)]
+        a_start, a_end = (a[0], a[-1])
+        b_start, b_end = (b[0], b[-1])
+        if (a_start in b and a_end in b) or (b_start in a and b_end in a):
+            full_overlaps += 1
+        if (a_start in b or a_end in b) or (b_start in a or b_end in a):
+            any_overlaps += 1
 
     p1_answer = full_overlaps
     p2_answer = any_overlaps
