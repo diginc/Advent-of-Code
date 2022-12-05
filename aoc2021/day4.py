@@ -5,6 +5,8 @@ import numpy as np
 DAY = 4
 
 CLEARED = [None]*5
+p1_answer = None
+p2_answer = None
 
 
 def main(input):
@@ -14,33 +16,36 @@ def main(input):
         pprint(f"Ball {ball}")
         for board in boards:
             for row in board:
-                col = row.index(ball) if ball in row else None
-                if col is not None:
+                col = row.index(ball) if ball in row else -1
+                if col != -1:
                     row[col] = None
 
-        # Debug
+        # # Debug
         # if b % 10 == 0:
-        #     pprint(boards[0])
-        #     pprint(np.transpose(boards[0]))
+        #     pprint(boards[50])
+        #     pprint(np.transpose(boards[50]))
 
         # Part 1
-        winner = False
+        winners = []
         for board in boards:
             board = np.array(board)
-            transpose = np.transpose(board)
-            everything = []
-            everything.append(np.array(np.diag(board)).tolist())
-            everything.append(np.fliplr(board).diagonal().tolist())
+            everything = [np.array(np.diag(board)).tolist(), np.fliplr(board).diagonal().tolist()]
             everything += [row.tolist() for row in board]
             everything += [col.tolist() for col in board]
             for check in everything:
                 if None in check:
                     debug = True
                 if check == CLEARED:
-                    winner = True
-        if winner:
+                    print(f"WINNER! {board} ")
+                    winners.append(board.reshape((1, 25))[0])
+                    break
+        if len(winners) == 1:
+            remaining_cells = [c for c in winners[0].tolist() if c is not None]
+            p1_answer = sum(remaining_cells) * ball
             break
-    debug = True
+
+    print(f"Day {DAY} Part 1: {p1_answer}")
+    print(f"Day {DAY} Part 2: {p2_answer}")
 
 def process_input(input):
     balls = []
