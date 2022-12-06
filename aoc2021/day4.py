@@ -1,67 +1,54 @@
+import copy
 import re
 from common import *
 from pprint import pprint
 import numpy as np
+
+
 DAY = 4
+CLEARED = np.array(['X']*5)
 
-CLEARED = [None]*5
-p1_answer = None
-p2_answer = None
+def check_bingo(hits):
+    return np.any([
+        np.all(hits[0, :]),
+        np.all(hits[1, :]),
+        np.all(hits[2, :]),
+        np.all(hits[3, :]),
+        np.all(hits[4, :]),
+        np.all(hits[:, 0]),
+        np.all(hits[:, 1]),
+        np.all(hits[:, 2]),
+        np.all(hits[:, 3]),
+        np.all(hits[:, 4]),
+    ])
 
-
-def main(input):
-    wins = setup_wins()
-    balls, boards = process_input(input)
-    for b, ball in enumerate(balls):
-        pprint(f"Ball {ball}")
-        for board in boards:
-            for row in board:
-                col = row.index(ball) if ball in row else -1
-                if col != -1:
-                    row[col] = None
-
-        # # Debug
-        # if b % 10 == 0:
-        #     pprint(boards[50])
-        #     pprint(np.transpose(boards[50]))
-
-        # Part 1
-        winners = []
-        for board in boards:
-            board = np.array(board)
-            everything = [np.array(np.diag(board)).tolist(), np.fliplr(board).diagonal().tolist()]
-            everything += [row.tolist() for row in board]
-            everything += [col.tolist() for col in board]
-            for check in everything:
-                if None in check:
-                    debug = True
-                if check == CLEARED:
-                    print(f"WINNER! {board} ")
-                    winners.append(board.reshape((1, 25))[0])
-                    break
-        if len(winners) == 1:
-            remaining_cells = [c for c in winners[0].tolist() if c is not None]
-            p1_answer = sum(remaining_cells) * ball
-            break
-
-    print(f"Day {DAY} Part 1: {p1_answer}")
-    print(f"Day {DAY} Part 2: {p2_answer}")
-
-def process_input(input):
-    balls = []
-    boards = [[]]  # Start with empty board for later
-    for line in input:
-        if not balls:
-            balls = [int(i) for i in line.strip().split(',')]
-        else:
-            if not line:
+def main(balls, boards):
+    p1 = None
+    p2 = None
+    hits = np.zeros(boards.shape, dtype=int)
+    trash_i = []
+    for ball in balls:
+        for board_i, board in enumerate(boards):
+            if board_i in trash_i:
                 continue
-            if len(boards[-1]) == 5:  # prev board full, new board
-                boards.append([])
-            split = re.split(r'\s+', line.strip())
-            split = [int(c) for c in split]
-            boards[-1].append(split)
-    return balls, boards
+            indices = np.where(board == ball)
+            if len(indices[0]) > 0:
+                x = indices[0][0]
+                y = indices[1][0]
+                hits[board_i][x][y] = 1
+                if check_bingo(hits[board_i]):
+                    trash_i.append(board_i)
+                    # PART 1
+                    if not p1:
+                        numbers_left = np.ma.masked_array(board, mask=hits[board_i])
+                        p1 = np.sum(numbers_left) * ball
+                        print(f"Day {DAY} Part 1: {p1}")
+                    # PART 2 Go till end
+                    if len(trash_i) == len(boards):
+                        numbers_left = np.ma.masked_array(board, mask=hits[board_i])
+                        p2 = np.sum(numbers_left) * ball
+                        print(f"Day {DAY} Part 2: {p2}")
+                        return  # Stop processing early
 
 
 def setup_wins():
@@ -81,4 +68,7 @@ def setup_wins():
 
 
 if __name__ == '__main__':
-    main(read_input(f"inputs/day{DAY}.txt", split='\n'))
+    balls = np.loadtxt(f'inputs/day{DAY}.txt', max_rows=1, dtype=int, delimiter=',')
+    boards = np.loadtxt(f'inputs/day{DAY}.txt', skiprows=1, dtype=int)
+    boards = np.reshape(boards, (-1, 5, 5))
+    main(balls, boards)
