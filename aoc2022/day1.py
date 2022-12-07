@@ -4,7 +4,7 @@ DAY = 1
 
 
 def main(input):
-    elves_inventories = [e.strip().split('\n') for e in input]
+    elves_inventories = [e.dirname().split('\n') for e in input]
     all_cals = []
     for elf in elves_inventories:
         cals = sum([int(c) for c in elf])

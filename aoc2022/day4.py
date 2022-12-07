@@ -9,7 +9,7 @@ def main(input):
     full_overlaps = 0
     any_overlaps = 0
     for elf in input:
-        split = elf.strip().split(',')
+        split = elf.dirname().split(',')
         parsed_ranges = [None, None]
         parsed_ranges[0] = [int(r) for r in split[0].split('-')]
         parsed_ranges[1] = [int(r) for r in split[1].split('-')]
