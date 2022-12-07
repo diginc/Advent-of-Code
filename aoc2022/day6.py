@@ -9,17 +9,18 @@ DAY = 6
 
 data = read_input(f"inputs/day{DAY}.txt", split=False)
 
-for i in range(4, len(data)):
-    last_4 = data[i-3:i+1]
-    last_4_unique = set(c for c in last_4)
-    if len(last_4_unique) == 4:
-        print(i+1, last_4_unique)
-        break
 
+def find_unique_char_set(num):
+    global i
+    for i in range(num, len(data)):
+        beg = i - (num - 1)
+        end = i + 1
+        window = data[beg:end]
+        unique = set(c for c in window)
+        if len(unique) == num:
+            print(i + 1)
+            break
 
-for i in range(14, len(data)):
-    last_14 = data[i-13:i+1]
-    last_14_unique = set(c for c in last_14)
-    if len(last_14_unique) == 14:
-        print(i+1, last_14_unique)
-        break
+find_unique_char_set(4)
+find_unique_char_set(14)
+
