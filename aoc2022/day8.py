@@ -40,10 +40,10 @@ def main(grid, answers=None):
                 right, down
             ]
             if loc in debug:
-                print(step_arrays, '\n', look_directions)
+                print(look_directions)
             score = 1
             score_logger_debug = []
-            for look_dir in step_arrays:
+            for look_dir in look_directions:
                 dir_score = 0
                 for tree in look_dir:
                     dir_score += 1
