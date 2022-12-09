@@ -60,7 +60,7 @@ def main(grid, answers=None):
         assert p2_score == answers[1]
 
 
-test = get_chararray(f"inputs/test{DAY}.txt", dtype=int)
+test = file_to_byte_matrix(f"inputs/test{DAY}.txt", dtype=int)
 main(test, answers=(21, 8))
-real = get_chararray(f"inputs/day{DAY}.txt", dtype=int)
+real = file_to_byte_matrix(f"inputs/day{DAY}.txt", dtype=int)
 main(real, answers=(1698, 672280))
