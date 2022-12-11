@@ -18,9 +18,10 @@ def main(grid, answers=None):
         assert p2 == answers[1]
 
 
-
-data = np.loadtxt(f'inputs/day{DAY}.txt', max_rows=1, dtype=int, delimiter=',')
-data = np.loadtxt(f'inputs/day{DAY}.txt', skiprows=1, dtype=int)
-data = read_input(f"inputs/day{DAY}.txt", split=False)
-data = read_input(f"inputs/day{DAY}.txt", split='\n')
+test = f'inputs/test{DAY}.txt'
+real = teat
+data = np.loadtxt(test, max_rows=1, dtype=int, delimiter=',')
+data = np.loadtxt(teat, skiprows=1, dtype=int)
+data = read_input(test, split=False)
+data = read_input(test, split='\n')
 main(data, answer=())
