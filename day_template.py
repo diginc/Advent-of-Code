@@ -1,27 +1,27 @@
-import copy
-import re
-import numpy as np
-import pandas as pd
-from common import *
-from pprint import pprint
+import pytest
+from numpy import np
 
 
 DAY = 9
 
-def main(grid, answers=None):
-    p1 = None
-    p2 = None
-    print(f"Day {DAY} Part 1: {p1}")
-    print(f"Day {DAY} Part 2: {p2}")
-    if answers:
-        assert p1 == answers[0]
-        assert p2 == answers[1]
+def main(data):
+    print(f"Hello data! {data}")
 
 
-test = f'inputs/test{DAY}.txt'
-real = teat
-data = np.loadtxt(test, max_rows=1, dtype=int, delimiter=',')
-data = np.loadtxt(teat, skiprows=1, dtype=int)
-data = read_input(test, split=False)
-data = read_input(test, split='\n')
-main(data, answer=())
+test = read_input(f'inputs/test{DAY}.txt', split='\n')
+real = read_input(f'inputs/day{DAY}.txt', split='\n')
+
+
+@pytest.mark.parametrize('name, args, answer', [
+    ('Test P1', (test), None),
+    ('Test P2', (test), None),
+    ('Real P1', (real), None),
+    ('Real P2', (real), None),
+])
+def test_main(name, args, answer):
+    result = main(*args)
+    print(f"{name} result: {result}")
+    if answer is not None:
+        assert result == answer
+    else:
+        assert False, f"No answer given to prevent regression for {name}"
