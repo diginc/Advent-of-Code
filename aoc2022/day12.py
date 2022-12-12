@@ -31,40 +31,40 @@ class Mountaineer:
         They walk all the paths so you don't have to and finds the best one to a goal.
     """
 
-
     def __init__(self, x, y, data):
         self.x = x
         self.y = y
         self.data = data
-        self.start = (self.x, self.y)
-        self.last_loc = (self.x, self.y)
+        self.start = self.coords()
         self.elevation = height_map[self.data[(0, 0)]],
-        self.route_plans = []
-        self.dead_ends = []
+        # done means reached goal, dead is dead end
+        self.routes = {'todo': [self.adjacent()], 'done': [], 'dead': []}
+        self.visited = [self.coords()]
+        self.last_loc = self.coords()
 
     def coords(self) -> tuple:
         return self.x, self.y
 
     def adjacent(self) -> list:
         """ Adjacent squares without rolling over to other side of grid
-        do: Add removal of already explored squares (NOT SCOUTED, VISITED) """
-        valid_routes = [
-            [coord, merge_coords(self.coords(), coord, self.data)]
-            for coord in [(1, 0), (-1, 0), (0, 1), (0, -1)]
-            if merge_coords(self.coords(), coord, self.data) != self.coords()
-        ]
+            Removals already explored squares (not scouted routes) """
+        valid_routes = []
+        for offset in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            full_coord = merge_coords(self.coords(), offset, self.data)
+            if full_coord == self.coords(): # or full_coord in self.visited:
+                continue  # merge can return same coords on the edge and don't revisit
+            valid_routes.append([offset, merge_coords(self.coords(), offset, self.data)])
         return valid_routes
 
     def map_routes(self, goal):
         """ Walk one route at a time until we reach our goal with some guess work to hope we go the right way
             Note all branches in the path for later review
             Re-traverse from earlier branching routes until you feel confident the best path is found"""
-        for route in self.route_plans:
-            next_steps = self.map_routes(route)
-            self.route_plans.append([step for step in next_steps])
-            del route
+        for route in self.routes['todo']:
+            next_steps = self.pick_route(route)
+            self.routes['todo'].append([step for step in next_steps])
 
-    def map_route(self, route):
+    def pick_route(self, route):
         """ find the possible routes from current location that don't reverse course to previously visited locations """
         routes = []
         for route in self.adjacent():
@@ -73,21 +73,21 @@ class Mountaineer:
             offset_str = ','.join([str(offset[0]), str(offset[1])])
             direction = MOVE_MAP[offset_str]
             print(f"{route} {direction}")
-
+        return routes
 
 
 def loc_printer(pos, data):
     value = data[pos[0][0], pos[1][0]][0]
     print(f"{pos[0][0]}, {pos[1][0]} = {value}")
 
+
 def get_np_tuple(pos, data):
     value = data[(pos[0][0], pos[1][0])]
     return pos[0][0], pos[1][0], value
 
 
-
-
 def merge_coords(a, b, data):
+    """ Merge a tuple coordinate and prevent grid wrap around/roll over to other side """
     x = a[0] + b[0]
     y = a[1] + b[1]
     if x < 0: x = 0
@@ -95,6 +95,7 @@ def merge_coords(a, b, data):
     if y < 0: y = 0
     if y > len(data[1]): y = len(data[1])
     return x, y
+
 
 def main(data):
     print()
