@@ -1,0 +1,15 @@
+services:
+    shell:
+        build: ./
+        volumes:
+            - ./:/ws
+        working_dir: /ws
+        entrypoint: sh
+        profiles: ['shell']
+    run:
+        build: ./
+        volumes:
+            - ./:/ws
+        working_dir: /ws
+        entrypoint: ruby
+        command: hello.rb
