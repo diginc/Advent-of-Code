@@ -2,10 +2,12 @@ require "csv"
 require "daru"
 require "awesome_print"
 require "polars-df"
+require "rspec/expectations"
+include RSpec::Matchers
 
-sample_p1 = "inputs/day1-sample-p1.txt"
-sample_p2 = "inputs/day1-sample-p2.txt"
-day_input = "inputs/day1.txt"
+example_p1 = "inputs/d1-ex1.txt"
+example_p2 = "inputs/d1-ex2.txt"
+real = "inputs/d1-real.txt"
 
 def get_data(file_path)
     data = []
@@ -17,8 +19,11 @@ def get_data(file_path)
     return data
 end
 
+def numeric?(value)
+  value.to_s.match?(/\A-?\d+(\.\d+)?\z/)
+end
+
 def part1(input)
-    puts "# Part 1"
     answer = 0
     digits = []
     input.each do |line|
@@ -41,26 +46,15 @@ def part2(input)
         "seven": 7, 
         "eight": 8, 
         "nine": 9,
-        "1": 1, # my is_a?(numeric) ternary/elvis operators were foot-gunning me so this is a gross fix but works, anything goes after midnight, XD
-        "2": 2,
-        "3": 3,
-        "4": 4, 
-        "5": 5,
-        "6": 6,
-        "7": 7,
-        "8": 8,
-        "9": 9
     }
-    puts "# Part 2"
     answer = 0
-    digits = []
     input.each do |line|
-        matches = line.scan(/(?=(\d|one|two|three|four|five|six|seven|eight|nine))/)
-        ap matches
-        first = numbers[matches.first[0].to_sym]
-        last = numbers[matches.last[0].to_sym]
+        matches = line.scan(/(?=([1-9]|one|two|three|four|five|six|seven|eight|nine))/)
+        # ap matches
+        first = numeric?(matches.first[0]) ? matches.first[0] : numbers[matches.first[0].to_sym]
+        last = numeric?(matches.last[0]) ? matches.last[0] : numbers[matches.last[0].to_sym]
         combined = "#{first}#{last}"
-        puts combined
+        # puts combined
         answer += combined.to_i
     end
     puts "P2 Answer: #{answer}"
@@ -69,8 +63,10 @@ end
 
 # ap data
 
-part1(get_data(sample_p1)) == 142
-part2(get_data(sample_p2)) == 281
+puts "Examples"
+expect(part1(get_data(example_p1))).to eq(142)
+expect(part2(get_data(example_p2))).to eq(281)
 
-part1(get_data(day_input)) == 55488
-part2(get_data(day_input)) == 55614
+puts "Real"
+expect(part1(get_data(real))).to eq(55488)
+expect(part2(get_data(real))).to eq(55614)
