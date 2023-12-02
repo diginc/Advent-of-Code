@@ -12,8 +12,8 @@ real = "inputs/d1-real.txt"
 def get_data(file_path)
     data = []
     File.open(file_path) { |file|
-        file.each_line { |ch| 
-            data.concat [ch]
+        file.each_line { |line| 
+            data.concat [line.sub('\n')]
         }
     }
     return data
