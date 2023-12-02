@@ -1,19 +1,16 @@
-require "csv"
-require "daru"
 require "awesome_print"
-require "polars-df"
 require "rspec/expectations"
 include RSpec::Matchers
 
-example_p1 = "inputs/d1-ex1.txt"
-example_p2 = "inputs/d1-ex2.txt"
-real = "inputs/d1-real.txt"
+example_p1 = "d01/d1-ex1.txt"
+example_p2 = "d01/d1-ex2.txt"
+real = "d01/d1-real.txt"
 
 def get_data(file_path)
     data = []
     File.open(file_path) { |file|
         file.each_line { |line| 
-            data.concat [line.sub('\n')]
+            data.concat [line.chomp]
         }
     }
     return data

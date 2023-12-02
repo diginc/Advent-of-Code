@@ -1,7 +1,4 @@
-require "csv"
-require "daru"
 require "awesome_print"
-require "polars-df"
 require "rspec/expectations"
 include RSpec::Matchers
 
@@ -27,7 +24,7 @@ def part1(input)
     max = {
         "red": 12,
         "green": 13,
-        "blue": 13,
+        "blue": 14,
     }
     answer = 0
     digits = []
