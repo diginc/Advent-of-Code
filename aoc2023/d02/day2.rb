@@ -16,10 +16,6 @@ def get_data(file_path)
     return data
 end
 
-def numeric?(value)
-  value.to_s.match?(/\A-?\d+(\.\d+)?\z/)
-end
-
 def part1(input)
     max = {
         "red": 12,
